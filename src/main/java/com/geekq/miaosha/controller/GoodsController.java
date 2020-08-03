@@ -18,8 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.thymeleaf.spring4.context.SpringWebContext;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,7 +58,7 @@ public class GoodsController extends BaseController {
         return render(request,response,model,"goods_list",GoodsKey.getGoodsList,"");
     }
 
-    @RequestMapping(value="/to_detail2/{goodsId}",produces="text/html")
+    /*@RequestMapping(value="/to_detail2/{goodsId}",produces="text/html")
     @ResponseBody
     public String detail2(HttpServletRequest request, HttpServletResponse response, Model model,MiaoshaUser user,
                           @PathVariable("goodsId")long goodsId) {
@@ -94,6 +93,7 @@ public class GoodsController extends BaseController {
         model.addAttribute("remainSeconds", remainSeconds);
 //        return "goods_detail";
 
+
         SpringWebContext ctx = new SpringWebContext(request,response,
                 request.getServletContext(),request.getLocale(), model.asMap(), applicationContext );
         html = viewResolver.getTemplateEngine().process("goods_detail", ctx);
@@ -101,7 +101,7 @@ public class GoodsController extends BaseController {
             redisService.set(GoodsKey.getGoodsDetail, ""+goodsId, html);
         }
         return html;
-    }
+    }*/
 
     /**
      * 数据库很少使用long的　，　id 正常使一般使用　snowflake 分布式自增id

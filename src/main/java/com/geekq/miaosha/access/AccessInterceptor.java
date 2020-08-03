@@ -19,6 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.OutputStream;
+import java.util.Collections;
 
 import static com.geekq.miaosha.common.enums.ResultStatus.ACCESS_LIMIT_REACHED;
 import static com.geekq.miaosha.common.enums.ResultStatus.SESSION_ERROR;
@@ -78,6 +79,7 @@ public class AccessInterceptor  extends HandlerInterceptorAdapter{
 	    	}
 		}
 		return true;
+
 	}
 
 	@Override

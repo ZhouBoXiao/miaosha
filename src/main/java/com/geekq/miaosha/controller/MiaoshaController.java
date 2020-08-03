@@ -1,7 +1,10 @@
 package com.geekq.miaosha.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.geekq.miaosha.access.AccessLimit;
 import com.geekq.miaosha.common.resultbean.ResultGeekQ;
+import com.geekq.miaosha.distributedlock.zookeeper.ZkLockUtil;
 import com.geekq.miaosha.domain.MiaoshaOrder;
 import com.geekq.miaosha.domain.MiaoshaUser;
 import com.geekq.miaosha.rabbitmq.MQSender;
@@ -28,6 +31,8 @@ import java.awt.image.BufferedImage;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 import static com.geekq.miaosha.common.enums.ResultStatus.*;
 
@@ -55,41 +60,26 @@ public class MiaoshaController implements InitializingBean {
     @Autowired
     MQSender mqSender;
 
-    private HashMap<Long, Boolean> localOverMap = new HashMap<Long, Boolean>();
+    private ConcurrentHashMap<Long, Boolean> localOverMap = new ConcurrentHashMap<Long, Boolean>();
 
-    /**
-     * QPS:1306
-     * 5000 * 10
-     * get　post get 幂等　从服务端获取数据　不会产生影响　　post 对服务端产生变化
-     */
-    @AccessLimit(seconds = 5, maxCount = 5, needLogin = true)
-    @RequestMapping(value="/{path}/do_miaosha", method= RequestMethod.POST)
+    @RequestMapping(value="/hello" ,method = RequestMethod.POST)
     @ResponseBody
-    public ResultGeekQ<Integer> miaosha(Model model, MiaoshaUser user, @PathVariable("path") String path,
-                                        @RequestParam("goodsId") long goodsId) {
+    public String hello(@RequestBody String id){
+
+        return id + "";
+    }
+
+
+    @RequestMapping(value="/test" ,method = RequestMethod.POST , produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public ResultGeekQ<Integer> test(@RequestBody String params) {
+
         ResultGeekQ<Integer> result = ResultGeekQ.build();
-
-        if (user == null) {
-            result.withError(SESSION_ERROR.getCode(), SESSION_ERROR.getMessage());
-            return result;
-        }
-        //验证path
-        boolean check = miaoshaService.checkPath(user, goodsId, path);
-        if (!check) {
-            result.withError(REQUEST_ILLEGAL.getCode(), REQUEST_ILLEGAL.getMessage());
-            return result;
-        }
-//		//使用RateLimiter 限流
-//		RateLimiter rateLimiter = RateLimiter.create(10);
-//		//判断能否在1秒内得到令牌，如果不能则立即返回false，不会阻塞程序
-//		if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
-//			System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
-//			return ResultGeekQ.error(CodeMsg.MIAOSHA_FAIL);
-//
-//		}
-
+        JSONObject jsonObject = JSON.parseObject(params);
+        long userId = jsonObject.getInteger("userId");
+        long goodsId = jsonObject.getInteger("goodsId");
         //是否已经秒杀到
-        MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdGoodsId(Long.valueOf(user.getNickname()), goodsId);
+        MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdGoodsId(userId, goodsId);
         if (order != null) {
             result.withError(REPEATE_MIAOSHA.getCode(), REPEATE_MIAOSHA.getMessage());
             return result;
@@ -109,8 +99,86 @@ public class MiaoshaController implements InitializingBean {
         }
         MiaoshaMessage mm = new MiaoshaMessage();
         mm.setGoodsId(goodsId);
+        MiaoshaUser user = new MiaoshaUser();
+        user.setId(userId);
         mm.setUser(user);
         mqSender.sendMiaoshaMessage(mm);
+        return result;
+    }
+
+
+    /**
+     * QPS:1306
+     * 5000 * 10
+     * get　post get 幂等　从服务端获取数据　不会产生影响　　post 对服务端产生变化
+     */
+    @AccessLimit(seconds = 5, maxCount = 5, needLogin = true)
+    @RequestMapping(value="/{path}/do_miaosha", method= RequestMethod.POST)
+    @ResponseBody
+    public ResultGeekQ<Integer> miaosha(Model model, long userId, @PathVariable("path") String path,
+                                        @RequestParam("goodsId") long goodsId) {
+        ResultGeekQ<Integer> result = ResultGeekQ.build();
+
+        /*if (user == null) {
+            result.withError(SESSION_ERROR.getCode(), SESSION_ERROR.getMessage());
+            return result;
+        }*/
+        //验证path
+        /*boolean check = miaoshaService.checkPath(user, goodsId, path);
+        if (!check) {
+            result.withError(REQUEST_ILLEGAL.getCode(), REQUEST_ILLEGAL.getMessage());
+            return result;
+        }*/
+//		//使用RateLimiter 限流
+//		RateLimiter rateLimiter = RateLimiter.create(10);
+//		//判断能否在1秒内得到令牌，如果不能则立即返回false，不会阻塞程序
+//		if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
+//			System.out.println("短期无法获取令牌，真不幸，排队也瞎排");
+//			return ResultGeekQ.error(CodeMsg.MIAOSHA_FAIL);
+//
+//		}
+        boolean res=false;
+        try {
+            // 使用zk分布式锁
+            res = ZkLockUtil.acquire(3, TimeUnit.SECONDS);
+            if (res) {
+                //是否已经秒杀到
+                MiaoshaOrder order = orderService.getMiaoshaOrderByUserIdGoodsId(userId, goodsId);
+                if (order != null) {
+                    result.withError(REPEATE_MIAOSHA.getCode(), REPEATE_MIAOSHA.getMessage());
+                    return result;
+                }
+                //内存标记，减少redis访问
+                boolean over = localOverMap.get(goodsId);
+                if (over) {
+                    result.withError(MIAO_SHA_OVER.getCode(), MIAO_SHA_OVER.getMessage());
+                    return result;
+                }
+                //预见库存
+                Long stock = redisService.decr(GoodsKey.getMiaoshaGoodsStock, "" + goodsId);
+                if (stock < 0) {
+                    localOverMap.put(goodsId, true);
+                    result.withError(MIAO_SHA_OVER.getCode(), MIAO_SHA_OVER.getMessage());
+                    return result;
+                }
+                MiaoshaMessage mm = new MiaoshaMessage();
+                mm.setGoodsId(goodsId);
+                MiaoshaUser user = new MiaoshaUser();
+                user.setId(userId);
+                mm.setUser(user);
+                mqSender.sendMiaoshaMessage(mm);
+            } else {
+                result.withError(MIAOSHA_FAIL.getCode(), MIAOSHA_FAIL.getMessage());
+            }
+        }  catch (Exception e) {
+//            e.printStackTrace();
+            logger.info("## "  + e);
+        } finally{
+            if(res){//释放锁
+                ZkLockUtil.release();
+            }
+        }
+
         return result;
     }
 

@@ -31,10 +31,10 @@ public class LoginController {
     public String tologin(LoginVo loginVo, Model model) {
         logger.info(loginVo.toString());
         //未完成
-          RedisLua.vistorCount(COUNTLOGIN);
-        String count = RedisLua.getVistorCount(COUNTLOGIN).toString();
-        logger.info("访问网站的次数为:{}",count);
-        model.addAttribute("count",count);
+//          RedisLua.vistorCount(COUNTLOGIN);
+//        String count = RedisLua.getVistorCount(COUNTLOGIN).toString();
+//        logger.info("访问网站的次数为:{}",count);
+//        model.addAttribute("count",count);
         return "login";
     }
 

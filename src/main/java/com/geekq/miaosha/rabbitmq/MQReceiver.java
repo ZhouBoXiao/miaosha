@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
+//@Service
 public class MQReceiver {
 
 		private static Logger log = LoggerFactory.getLogger(MQReceiver.class);

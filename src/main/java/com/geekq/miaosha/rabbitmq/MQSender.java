@@ -1,6 +1,7 @@
 package com.geekq.miaosha.rabbitmq;
 
 import com.geekq.miaosha.domain.MiaoshaUser;
+import com.geekq.miaosha.kafka.KafkaSender;
 import com.geekq.miaosha.redis.RedisService;
 import com.geekq.miaosha.vo.MiaoShaMessageVo;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,10 +23,14 @@ public class MQSender {
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 
+	@Autowired
+	private KafkaSender kafkaSender;
+
 	public void sendMiaoshaMessage(MiaoshaMessage mm) {
 		String msg = RedisService.beanToString(mm);
 		log.info("send message:"+msg);
-		amqpTemplate.convertAndSend(MQConfig.MIAOSHA_QUEUE, msg);
+//		amqpTemplate.convertAndSend(MQConfig.MIAOSHA_QUEUE, msg);
+		kafkaSender.sendChannelMess(MQConfig.MIAOSHA_QUEUE, msg);
 	}
 
 	/**

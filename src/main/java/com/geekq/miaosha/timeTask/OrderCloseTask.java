@@ -47,31 +47,31 @@ public class OrderCloseTask {
 //    }
 
 //    @Scheduled(cron = "0/1 * * * * ?")
-    public void closeOrderTaskV3(){
-        log.info("关闭订单定时任务启动");
-        long lockTime = 5000;
-        Long setnxResult = redisService.setnx(CLOSE_ORDER_INFO_TASK_LOCK,String.valueOf(System.currentTimeMillis()+lockTime));
-        //代表获取了锁
-        if(setnxResult !=null && setnxResult ==1){
-            closeOrder(CLOSE_ORDER_INFO_TASK_LOCK);
-        }else {
-            log.info("没有获得分布式锁:{}",CLOSE_ORDER_INFO_TASK_LOCK);
-            String lockValueStr = redisService.get(CLOSE_ORDER_INFO_TASK_LOCK);
-            if(lockValueStr!=null&&System.currentTimeMillis() > Long.parseLong(lockValueStr)){
-            //把之前的释放在新加入锁
-            String getSetResult = redisService.getset(CLOSE_ORDER_INFO_TASK_LOCK,String.valueOf(System.currentTimeMillis()+lockTime));
-
-            if(getSetResult == null || (getSetResult != null && StringUtils.equals(lockValueStr,getSetResult))){
-                closeOrder(CLOSE_ORDER_INFO_TASK_LOCK);
-            }else {
-                log.info("没有获取到分布式锁:{}",CLOSE_ORDER_INFO_TASK_LOCK);
-            }
-            }else {
-                log.info("没有获取到分布式锁:{}",CLOSE_ORDER_INFO_TASK_LOCK);
-            }
-        }
-        log.info("关闭订单定时任务结束");
-    }
+//    public void closeOrderTaskV3(){
+//        log.info("关闭订单定时任务启动");
+//        long lockTime = 5000;
+//        Long setnxResult = redisService.setnx(CLOSE_ORDER_INFO_TASK_LOCK,String.valueOf(System.currentTimeMillis()+lockTime));
+//        //代表获取了锁
+//        if(setnxResult !=null && setnxResult ==1){
+//            closeOrder(CLOSE_ORDER_INFO_TASK_LOCK);
+//        }else {
+//            log.info("没有获得分布式锁:{}",CLOSE_ORDER_INFO_TASK_LOCK);
+//            String lockValueStr = redisService.get(CLOSE_ORDER_INFO_TASK_LOCK);
+//            if(lockValueStr!=null&&System.currentTimeMillis() > Long.parseLong(lockValueStr)){
+//            //把之前的释放在新加入锁
+//            String getSetResult = redisService.getset(CLOSE_ORDER_INFO_TASK_LOCK,String.valueOf(System.currentTimeMillis()+lockTime));
+//
+//            if(getSetResult == null || (getSetResult != null && StringUtils.equals(lockValueStr,getSetResult))){
+//                closeOrder(CLOSE_ORDER_INFO_TASK_LOCK);
+//            }else {
+//                log.info("没有获取到分布式锁:{}",CLOSE_ORDER_INFO_TASK_LOCK);
+//            }
+//            }else {
+//                log.info("没有获取到分布式锁:{}",CLOSE_ORDER_INFO_TASK_LOCK);
+//            }
+//        }
+//        log.info("关闭订单定时任务结束");
+//    }
 //    @Scheduled(cron="0 */1 * * * ?")
 //    public void closeOrderTaskV4(){
 //        RLock lock = redissonService.getRLock(CLOSE_ORDER_INFO_TASK_LOCK);

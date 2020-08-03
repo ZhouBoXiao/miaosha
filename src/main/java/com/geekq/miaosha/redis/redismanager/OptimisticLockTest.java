@@ -5,11 +5,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.geekq.miaosha.redis.redismanager.RedisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.Transaction;
 
 /**
  * redis乐观锁实例
@@ -17,7 +12,7 @@ import redis.clients.jedis.Transaction;
  *
  */
 public class OptimisticLockTest {
-	public static void main(String[] args) throws InterruptedException {
+	/*public static void main(String[] args) throws InterruptedException {
 		long starTime=System.currentTimeMillis();
 
 		initPrduct();
@@ -28,12 +23,12 @@ public class OptimisticLockTest {
 		long Time=endTime-starTime;
 		System.out.println("程序运行时间： "+Time+"ms");
 
-	}
+	}*/
 
 	/**
 	 * 输出结果
 	 */
-	public static void printResult() {
+	/*public static void printResult() {
 		Jedis jedis = RedisUtil.getInstance().getJedis();
 		Set<String> set = jedis.smembers("clientList");
 
@@ -43,36 +38,36 @@ public class OptimisticLockTest {
 		}
 
 		RedisUtil.returnResource(jedis);
-	}
+	}*/
 
 	/*
 	 * 初始化顾客开始抢商品
 	 */
-	public static void initClient() {
-		ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-		int clientNum = 10000;// 模拟客户数目
-		for (int i = 0; i < clientNum; i++) {
-			cachedThreadPool.execute(new ClientThread(i));
-		}
-		cachedThreadPool.shutdown();
-
-		while(true){
-			if(cachedThreadPool.isTerminated()){
-				System.out.println("所有的线程都结束了！");
-				break;
-			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	public static void initClient() {
+//		ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+//		int clientNum = 10000;// 模拟客户数目
+//		for (int i = 0; i < clientNum; i++) {
+//			cachedThreadPool.execute(new ClientThread(i));
+//		}
+//		cachedThreadPool.shutdown();
+//
+//		while(true){
+//			if(cachedThreadPool.isTerminated()){
+//				System.out.println("所有的线程都结束了！");
+//				break;
+//			}
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 	/**
 	 * 初始化商品个数
 	 */
-	public static void initPrduct() {
+	/*public static void initPrduct() {
 		int prdNum = 100;// 商品个数
 		String key = "prdNum";
 		String clientList = "clientList";// 抢购到商品的顾客列表
@@ -88,7 +83,7 @@ public class OptimisticLockTest {
 
 		jedis.set(key, String.valueOf(prdNum));// 初始化
 		RedisUtil.returnResource(jedis);
-	}
+	}*/
 
 }
 
@@ -98,6 +93,7 @@ public class OptimisticLockTest {
  * @author linbingwen
  *
  */
+/*
 class ClientThread implements Runnable {
 	Jedis jedis = null;
 	String key = "prdNum";// 商品主键
@@ -146,3 +142,4 @@ class ClientThread implements Runnable {
 	}
 
 }
+*/

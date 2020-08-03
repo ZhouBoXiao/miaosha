@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+//@Configuration
 public class MQConfig {
 
 	/**
 	 * /usr/sbin/rabbitmq-plugins enable rabbitmq_management
 	 * mq页面
 	 */
-	public static final String MIAOSHA_QUEUE = "miaosha.queue";
+	public static final String MIAOSHA_QUEUE = "seckill";
 
 	public static final String EXCHANGE_TOPIC = "exchange_topic";
 

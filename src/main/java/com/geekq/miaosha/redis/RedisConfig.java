@@ -3,8 +3,8 @@ package com.geekq.miaosha.redis;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component
-@ConfigurationProperties(prefix="redis")
+//@Component
+//@ConfigurationProperties(prefix="spring.redis")
 public class RedisConfig {
     private String host;
     private int port;

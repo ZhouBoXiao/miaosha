@@ -22,13 +22,13 @@ import static com.geekq.miaosha.common.Constanst.orderStaus.ORDER_NOT_PAY;
 public class OrderService {
 	
 	@Autowired
-	OrderDao orderDao;
+	private OrderDao orderDao;
 
 	@Autowired
 	private RedisService redisService ;
 	
 	public MiaoshaOrder getMiaoshaOrderByUserIdGoodsId(long userId, long goodsId) {
-		return	redisService.get(OrderKey.getMiaoshaOrderByUidGid,""+userId+"_"+goodsId,MiaoshaOrder.class) ;
+		return	redisService.get(OrderKey.getMiaoshaOrderByUidGid,""+userId+"_"+goodsId, MiaoshaOrder.class) ;
 	}
 
 	public OrderInfo getOrderById(long orderId) {
@@ -46,14 +46,14 @@ public class OrderService {
 		orderInfo.setGoodsPrice(goods.getMiaoshaPrice());
 		orderInfo.setOrderChannel(1);
 		orderInfo.setStatus(0);
-		orderInfo.setUserId(Long.valueOf(user.getNickname()));
+		orderInfo.setUserId(user.getId());
 		orderDao.insert(orderInfo);
 		MiaoshaOrder miaoshaOrder = new MiaoshaOrder();
 		miaoshaOrder.setGoodsId(goods.getId());
 		miaoshaOrder.setOrderId(orderInfo.getId());
-		miaoshaOrder.setUserId(Long.valueOf(user.getNickname()));
+		miaoshaOrder.setUserId(user.getId());
 		orderDao.insertMiaoshaOrder(miaoshaOrder);
-		redisService.set(OrderKey.getMiaoshaOrderByUidGid,""+user.getNickname()+"_"+goods.getId(),miaoshaOrder) ;
+		redisService.set(OrderKey.getMiaoshaOrderByUidGid,""+user.getId()+"_"+goods.getId(),miaoshaOrder) ;
 		return orderInfo;
 	}
 

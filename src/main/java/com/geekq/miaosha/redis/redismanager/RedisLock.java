@@ -1,15 +1,11 @@
 package com.geekq.miaosha.redis.redismanager;
 
-import org.springframework.transaction.annotation.Transactional;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Transaction;
-
 import java.util.List;
 import java.util.UUID;
 
 public class RedisLock {
 
-    public String getLock(String key , int timeOut){
+    /*public String getLock(String key , int timeOut){
 
         try {
                 Jedis jedis =  RedisManager.getJedis();
@@ -31,12 +27,12 @@ public class RedisLock {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
 /**
  * watch 监控多个key 一防止其他地方调用释放锁的时候对这个key进行修改 那么事务里面的代码就不会被执行 ！
  */
-    public boolean releaseLock(String key , String value){
+    /*public boolean releaseLock(String key , String value){
         try {
             Jedis jedis = RedisManager.getJedis();
             while (true){
@@ -55,5 +51,5 @@ public class RedisLock {
             e.printStackTrace();
         }
         return false;
-    }
+    }*/
 }
