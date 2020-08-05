@@ -1,9 +1,6 @@
 import com.geekq.miaosha.kafka.KafkaConsumer;
-import com.geekq.miaosha.rabbitmq.MQSender;
 import com.geekq.miaosha.redis.RedisService;
-//import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.sql.DataSource;
+
+//import org.apache.kafka.clients.consumer.KafkaConsumer;
 
 /**
  * @Description:

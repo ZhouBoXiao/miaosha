@@ -1,5 +1,6 @@
-package com.geekq.miaosha.rabbitmq;
+package com.geekq.miaosha.MQ;
 
+import com.geekq.miaosha.domain.MiaoshaMessage;
 import com.geekq.miaosha.domain.MiaoshaOrder;
 import com.geekq.miaosha.domain.MiaoshaUser;
 import com.geekq.miaosha.redis.RedisService;
@@ -13,10 +14,8 @@ import com.rabbitmq.client.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 

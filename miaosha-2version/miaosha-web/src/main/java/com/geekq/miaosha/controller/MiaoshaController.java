@@ -1,8 +1,8 @@
 package com.geekq.miaosha.controller;
 
 import com.geekq.miaosha.interceptor.RequireLogin;
-import com.geekq.miaosha.rabbitmq.MQSender;
-import com.geekq.miaosha.rabbitmq.MiaoshaMessage;
+import com.geekq.miaosha.MQ.MQSender;
+import com.geekq.miaosha.MQ.MiaoshaMessage;
 import com.geekq.miaosha.redis.GoodsKey;
 import com.geekq.miaosha.redis.RedisService;
 import com.geekq.miaosha.redis.redismanager.RedisLimitRateWithLUA;

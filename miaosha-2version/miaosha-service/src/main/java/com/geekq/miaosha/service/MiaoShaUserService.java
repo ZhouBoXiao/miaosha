@@ -1,7 +1,7 @@
 package com.geekq.miaosha.service;
 
 import com.geekq.miaosha.mapper.MiaoShaUserMapper;
-import com.geekq.miaosha.rabbitmq.MQSender;
+import com.geekq.miaosha.MQ.MQSender;
 import com.geekq.miaosha.redis.MiaoShaUserKey;
 import com.geekq.miaosha.redis.RedisService;
 import com.geekq.miasha.entity.IpLog;

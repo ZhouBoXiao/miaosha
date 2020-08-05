@@ -1,4 +1,4 @@
-package com.geekq.miaosha.rabbitmq;
+package com.geekq.miaosha.MQ;
 
 
 import com.geekq.miasha.entity.MiaoshaUser;

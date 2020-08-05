@@ -12,11 +12,12 @@ import org.springframework.stereotype.Component;
 public class KafkaSender {
     @Autowired
     private KafkaTemplate<String,String> kafkaTemplate;
-
+//    ProducerRecord
     /**
      * 发送消息到kafka
      */
     public void sendChannelMess(String channel, String message){
         kafkaTemplate.send(channel,message);
     }
+
 }

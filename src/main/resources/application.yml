@@ -58,36 +58,44 @@ spring:
       #设置大于0的值将使客户端重新发送任何数据，一旦这些数据发送失败。注意，这些重试与客户端接收到发送错误时的重试没有什么不同。
       # 允许重试将潜在的改变数据的顺序，如果这两个消息记录都是发送到同一个partition，则第一个消息失败第二个发送成功，
       # 则第二条消息会比第一条消息出现要早。
-      retries: 0
+      retries: 3
       #每批次发送消息的数量
       batch-size: 16384
       #producer可以用来缓存数据的内存大小。如果数据产生速度大于向broker发送的速度，producer会阻塞或者抛出异常，以“block.on.buffer.full”来表明。这项设置将和producer能够使用的总内存相关，但并不是一个硬性的限制，因为不是producer使用的所有内存都是用于缓存。一些额外的内存会用于压缩（如果引入压缩机制），同样还有一些用于维护请求。
       buffer-memory: 33554432
       #key序列化方式
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # 消息的 value 的序列化
+      acks: 1 # leader回应
     consumer:
-      group-id: default
+      #      group-id: consumer-group
       #Kafka中没有初始偏移或如果当前偏移在服务器上不再存在时,默认区最新 ，有三个选项 【latest, earliest, none】
       auto-offset-reset: latest
-      enable-auto-commit: true
-      auto-commit-interval: 100
+      # 消费者是否自动提交offset
+      enable-auto-commit: false
+      # auto-commit-interval: 100
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-
-#  rabbitmq:
-#    host: 127.0.0.1
-#    username : guest
-#    password: guest
-#    virtual-host: /
-#    listener:
-#      simple:
-#        concurrency: 10
-#        max-concurrency: 10
-#        prefetch: 1
-#        auto-startup: true
-#        default-requeue-rejected: true
-#        acknowledge-mode: manual
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.geekq.miaosha.domain
+    listener:
+      missing-topics-fatal: false
+    #  rabbitmq:
+    #    host: 127.0.0.1
+    #    username : guest
+    #    password: guest
+    #    virtual-host: /
+    #    listener:
+    #      simple:
+    #        concurrency: 10
+    #        max-concurrency: 10
+    #        prefetch: 1
+    #        auto-startup: true
+    #        default-requeue-rejected: true
+    #        acknowledge-mode: manual
     template:
       retry:
         enabled: true
@@ -146,3 +154,11 @@ server:
     max-connections: 3000
     max-threads: 1000
     max-http-form-post-size: 6MB
+
+logging:
+  level:
+    org:
+      springframework:
+        kafka: ERROR # spring-kafka INFO 日志太多了，所以我们限制只打印 ERROR 级别
+      apache:
+        kafka: ERROR # kafka INFO 日志太多了，所以我们限制只打印 ERROR 级别

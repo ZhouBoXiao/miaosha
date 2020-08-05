@@ -1,10 +1,10 @@
 package com.geekq.miaosha.controller;
 
+import com.geekq.miaosha.MQ.MQSender;
 import com.geekq.miaosha.common.enums.MessageStatus;
 import com.geekq.miaosha.common.enums.ResultStatus;
 import com.geekq.miaosha.common.resultbean.ResultGeekQ;
 import com.geekq.miaosha.domain.MiaoShaMessageInfo;
-import com.geekq.miaosha.rabbitmq.MQSender;
 import com.geekq.miaosha.service.MiaoShaMessageService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

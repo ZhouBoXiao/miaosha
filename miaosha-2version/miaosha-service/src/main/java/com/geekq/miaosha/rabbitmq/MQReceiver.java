@@ -1,4 +1,4 @@
-package com.geekq.miaosha.rabbitmq;
+package com.geekq.miaosha.MQ;
 
 import com.geekq.api.entity.GoodsVoOrder;
 import com.geekq.api.utils.AbstractResultOrder;

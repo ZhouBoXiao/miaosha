@@ -1,18 +1,14 @@
 package com.geekq.miaosha.service;
 
-import com.geekq.miaosha.common.SnowflakeIdWorker;
-import com.geekq.miaosha.common.enums.MessageStatus;
-import com.geekq.miaosha.controller.RegisterController;
+import com.geekq.miaosha.MQ.MQSender;
 import com.geekq.miaosha.dao.MiaoShaUserDao;
 import com.geekq.miaosha.domain.MiaoshaUser;
 import com.geekq.miaosha.exception.GlobleException;
-import com.geekq.miaosha.rabbitmq.MQSender;
 import com.geekq.miaosha.redis.MiaoShaUserKey;
 import com.geekq.miaosha.redis.RedisService;
 import com.geekq.miaosha.utils.MD5Utils;
 import com.geekq.miaosha.utils.UUIDUtil;
 import com.geekq.miaosha.vo.LoginVo;
-import com.geekq.miaosha.vo.MiaoShaMessageVo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Date;
 
 import static com.geekq.miaosha.common.enums.ResultStatus.*;

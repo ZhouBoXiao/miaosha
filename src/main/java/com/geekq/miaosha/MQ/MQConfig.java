@@ -1,8 +1,7 @@
-package com.geekq.miaosha.rabbitmq;
+package com.geekq.miaosha.MQ;
 
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;

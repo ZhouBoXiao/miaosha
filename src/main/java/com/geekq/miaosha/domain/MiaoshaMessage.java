@@ -1,6 +1,4 @@
-package com.geekq.miaosha.rabbitmq;
-
-import com.geekq.miaosha.domain.MiaoshaUser;
+package com.geekq.miaosha.domain;
 
 public class MiaoshaMessage {
 	private MiaoshaUser user;

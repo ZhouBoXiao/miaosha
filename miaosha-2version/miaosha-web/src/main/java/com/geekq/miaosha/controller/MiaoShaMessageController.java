@@ -1,6 +1,6 @@
 package com.geekq.miaosha.controller;
 
-import com.geekq.miaosha.rabbitmq.MQSender;
+import com.geekq.miaosha.MQ.MQSender;
 import com.geekq.miaosha.service.MiaoShaMessageService;
 import com.geekq.miasha.entity.MiaoShaMessageInfo;
 import com.geekq.miasha.enums.MessageStatus;
