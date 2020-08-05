@@ -11,7 +11,7 @@ JVM_ARGS=${JVM_MEMORY}" "${JVM_GC}" "${JVM_GC_LOG}" -XX:+HeapDumpOnOutOfMemoryEr
 
 project_path=$(dirname $0)/
 pid_file=${project_path}/pid
-NAME=""
+NAME="miaosha"
 VERSION=0.0.1
 
 # 环境不同需要而外配置

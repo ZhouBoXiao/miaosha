@@ -9,8 +9,9 @@ import org.aspectj.lang.annotation.Pointcut;
 /**
  * 计算消耗的时间
  */
-@Aspect
+
 @Slf4j
+@Aspect
 public class CounterAspect {
 
     /**
