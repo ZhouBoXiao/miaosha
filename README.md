@@ -74,11 +74,18 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
-
+```
 使用`docker-compose up -d`在后台启动服务
 使用`docker-compose ps`查看启动的服务
 使用`docker-compose stop` 停止服务
+
+```shell script
+# 进入容器
+docker exec -it 容器ID  /bin/bash
+# 创建topic
+$KAFKA_HOME/bin/kafka-topics.sh --create --topic seckill --zookeeper miaosha_zookeeper_1:2181 --replication-factor 1 --partitions 1
 ```
+
 ### 启动脚本
 ./http.sh start service启动，
 
@@ -86,6 +93,40 @@ services:
 执行./http.sh stop
 
 ## 技术方案
+##### [系统设计的要点](/docs/seckill-design.md)
+
+### 计时TimeCounter
+创建注解TimeCounter，然后再定义切面Aspect，如下：
+```java
+@Slf4j
+@Aspect
+public class CounterAspect {
+
+    /**
+     * 定义切点，定位到@Log注解的地方
+     */
+    @Pointcut("@annotation(com.geekq.miaosha.annotation.TimeCounter)")
+    public void counterPointCut() {
+
+    }
+
+    /**
+     * 注解打印日志
+     */
+    @Around("counterPointCut()")
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        long start = System.currentTimeMillis();
+        try {
+            return joinPoint.proceed();
+        } finally {
+            long end = System.currentTimeMillis();
+            log.info("## method {} costs {} ##", joinPoint.getSignature().getName(), end - start);
+        }
+    }
+}
+
+```
+在方法上添加注解TimeCounter，即可计算消耗时间。
 
 ### 日志优化之MDC
 
@@ -96,11 +137,20 @@ Logback设计的一个目标之一是对分布式应用系统的审计和调试�
 一种更加轻量级的实现是使用MDC机制，在处理请求前将请求的唯一标示放到MDC容器中，这个唯一标示会随着日志一起输出，
 以此来区分该条日志是属于那个请求的。并在请求处理完成之后清除MDC容器。
 
-唯一标识是requestId，采用雪花算法：
+#### 日志拦截器LogInterceptor
+
+```java
+        MDC.put(Constants.IP, Utils.getIpAddr(request));
+        String requestId = Utils.getRequestId();
+        MDC.put(Constants.REQUESTID, requestId);
+```
 
 
-### 分布式锁
 
+唯一标识是requestId，采用雪花算法（）。
 
+### 限流Sentinel
+
+[Sentinel介绍](./Sentinel.md)
 
 

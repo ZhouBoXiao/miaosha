@@ -9,7 +9,7 @@
 
     <modules>
         <module>common</module>
-        <module>seckill</module>
+        <module>seckill-web</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -40,6 +40,8 @@
         <maven.jacoco.version>0.8.3</maven.jacoco.version>
         <maven.jar.version>3.1.0</maven.jar.version>
         <maven.pmd.version>3.8</maven.pmd.version>
+        <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
+        <spring.cloud.alibaba.version>2.2.0.RELEASE</spring.cloud.alibaba.version>
     </properties>
 
     <name>miaosha</name>
