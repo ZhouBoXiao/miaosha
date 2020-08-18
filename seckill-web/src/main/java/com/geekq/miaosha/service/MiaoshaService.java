@@ -31,11 +31,12 @@ public class MiaoshaService {
 
     @Transactional
     public OrderInfo miaosha(MiaoshaUser user, GoodsVo goods) {
-        //减库存 下订单 写入秒杀订单
-        boolean success = goodsService.reduceStock(goods);
-		if(success){
-			return orderService.createOrder(user,goods) ;
-		}else {
+		//TODO 先下订单， 再减库存
+		//减库存 下订单 写入秒杀订单
+		boolean success = goodsService.reduceStock(goods);
+		if (success) {
+			return orderService.createOrder(user, goods);
+		} else {
 			//如果库存不存在则内存标记为true
 			setGoodsOver(goods.getId());
 			return null;

@@ -1,4 +1,4 @@
-package com.geekq.common.utils;
+package com.geekq.miaosha.utils;
 /**
  * Twitter_Snowflake<br>
  * SnowFlake的结构如下(每部分用-分开):<br>

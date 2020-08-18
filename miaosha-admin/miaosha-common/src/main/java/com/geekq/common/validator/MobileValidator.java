@@ -1,6 +1,6 @@
-package com.geekq.common.validator;
+package com.geekq.miaosha.validator;
 
-import com.geekq.common.utils.ValidatorUtil;
+import com.geekq.miaosha.utils.ValidatorUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;

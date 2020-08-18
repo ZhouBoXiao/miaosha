@@ -1,4 +1,4 @@
-package com.geekq.common.utils.numcal;
+package com.geekq.miaosha.utils.numcal;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

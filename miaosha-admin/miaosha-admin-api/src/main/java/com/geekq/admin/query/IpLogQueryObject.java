@@ -1,6 +1,6 @@
 package com.geekq.admin.query;
 
-import com.geekq.common.utils.DateUtil;
+import com.geekq.miaosha.utils.DateUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;

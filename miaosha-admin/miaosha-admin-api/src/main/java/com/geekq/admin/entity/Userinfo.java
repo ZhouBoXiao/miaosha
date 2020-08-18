@@ -1,6 +1,6 @@
 package com.geekq.admin.entity;
 
-import com.geekq.common.utils.numcal.BitStatesUtils;
+import com.geekq.miaosha.utils.numcal.BitStatesUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.ibatis.type.Alias;

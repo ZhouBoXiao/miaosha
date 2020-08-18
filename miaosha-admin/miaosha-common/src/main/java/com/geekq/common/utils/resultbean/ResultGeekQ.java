@@ -1,7 +1,7 @@
-package com.geekq.common.utils.resultbean;
+package com.geekq.miaosha.utils.resultbean;
 
 
-import com.geekq.common.enums.ResultStatus;
+import com.geekq.miaosha.enums.ResultStatus;
 
 import java.io.Serializable;
 

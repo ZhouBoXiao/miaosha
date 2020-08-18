@@ -4,7 +4,7 @@ import com.geekq.admin.entity.Userinfo;
 import com.geekq.admin.mapper.UserinfoMapper;
 import com.geekq.admin.service.IUserService;
 import com.geekq.admin.utils.UserContext;
-import com.geekq.common.utils.numcal.BitStatesUtils;
+import com.geekq.miaosha.utils.numcal.BitStatesUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

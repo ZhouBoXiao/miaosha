@@ -1,4 +1,4 @@
-package com.geekq.common.utils.MD5;
+package com.geekq.miaosha.utils.MD5;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

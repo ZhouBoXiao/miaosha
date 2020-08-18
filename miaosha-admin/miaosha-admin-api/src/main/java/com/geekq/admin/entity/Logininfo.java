@@ -1,6 +1,6 @@
 package com.geekq.admin.entity;
 
-import com.geekq.common.enums.Constants;
+import com.geekq.miaosha.enums.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

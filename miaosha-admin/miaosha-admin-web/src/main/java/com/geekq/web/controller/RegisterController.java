@@ -1,10 +1,10 @@
 package com.geekq.web.controller;
 
 import com.geekq.admin.service.ILogininfoService;
-import com.geekq.common.enums.Constants;
-import com.geekq.common.enums.ResultStatus;
-import com.geekq.common.utils.resultbean.ResultGeekQ;
-import com.geekq.common.utils.resultbean.ResultJSON;
+import com.geekq.miaosha.enums.Constants;
+import com.geekq.miaosha.enums.ResultStatus;
+import com.geekq.miaosha.utils.resultbean.ResultGeekQ;
+import com.geekq.miaosha.utils.resultbean.ResultJSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

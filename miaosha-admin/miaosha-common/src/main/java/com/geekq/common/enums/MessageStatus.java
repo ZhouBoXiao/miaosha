@@ -1,4 +1,4 @@
-package com.geekq.common.enums;
+package com.geekq.miaosha.enums;
 
 public class MessageStatus {
 

@@ -1,7 +1,7 @@
 package com.geekq.admin.service;
 
 import com.geekq.admin.entity.Logininfo;
-import com.geekq.common.utils.resultbean.ResultGeekQ;
+import com.geekq.miaosha.utils.resultbean.ResultGeekQ;
 
 import java.util.List;
 import java.util.Map;

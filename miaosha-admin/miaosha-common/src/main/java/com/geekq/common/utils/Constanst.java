@@ -1,4 +1,4 @@
-package com.geekq.common.utils;
+package com.geekq.miaosha.utils;
 
 public class Constanst {
     public static String CLOSE_ORDER_INFO_TASK_LOCK = "CLOSE_ORDER_INFO_KEY";

@@ -1,6 +1,6 @@
-package com.geekq.common.vo;
+package com.geekq.miaosha.vo;
 
-import com.geekq.common.validator.MobileCheck;
+import com.geekq.miaosha.validator.MobileCheck;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

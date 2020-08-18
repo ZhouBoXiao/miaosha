@@ -1,4 +1,4 @@
-package com.geekq.common.utils.numcal;
+package com.geekq.miaosha.utils.numcal;
 
 /**
  * 用户状态类，记录用户在平台使用系统中所有的状态。

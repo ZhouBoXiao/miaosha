@@ -1,4 +1,4 @@
-package com.geekq.common.utils.resultbean;
+package com.geekq.miaosha.utils.resultbean;
 
 import lombok.Getter;
 import lombok.Setter;

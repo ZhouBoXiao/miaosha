@@ -5,7 +5,7 @@ import com.geekq.admin.mapper.IpLogMapper;
 import com.geekq.admin.query.IpLogQueryObject;
 import com.geekq.admin.query.PageResult;
 import com.geekq.admin.service.IIpLogService;
-import com.geekq.common.utils.DBContextUtil;
+import com.geekq.miaosha.utils.DBContextUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

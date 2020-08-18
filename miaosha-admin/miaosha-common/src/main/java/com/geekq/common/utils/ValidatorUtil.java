@@ -1,4 +1,4 @@
-package com.geekq.common.utils;
+package com.geekq.miaosha.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

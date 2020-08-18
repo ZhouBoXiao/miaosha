@@ -4,24 +4,42 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
 public class RedisService {
 
+	private static final String GET_COUPON_CODE =
+			"local values = redis.call('hmget',KEYS[1],'recvCnt','couponCnt');\n" +  //lua返回value的数组
+					"if tonumber(values[1]) < tonumber(values[2]) then \n" +       //lua的数组索引从1开始 values[1] = recvCnt,values[2] = couponCnt
+					"  redis.call('hincrby',KEYS[1],'recvCnt',1);\n" +
+					"  return true;\n" +
+					"else\n " +
+					"  return false;\n" +
+					"end\n";
 	@Autowired
-	private RedisTemplate<String,String> redisTemplate;
+	private RedisTemplate<String, String> redisTemplate;
+
+	public Long execute(String redisScript, List<String> keys) {
+		RedisScript<Long> REDIS_SCRIPT = new DefaultRedisScript<>(redisScript, Long.class);
+		return redisTemplate.execute(REDIS_SCRIPT, keys);
+	}
+
 
 	/**
 	 * 设置失效时间
+	 *
 	 * @param key
 	 * @param value
 	 * @return
 	 */
-	public Boolean setnx(String key ,String value){
+	public Boolean setnx(String key, String value) {
 
 		return redisTemplate.opsForValue().setIfAbsent(key, value);
 //		Jedis jedis =null;

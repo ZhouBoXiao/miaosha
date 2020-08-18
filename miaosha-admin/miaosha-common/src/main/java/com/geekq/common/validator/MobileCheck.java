@@ -1,4 +1,4 @@
-package com.geekq.common.validator;
+package com.geekq.miaosha.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

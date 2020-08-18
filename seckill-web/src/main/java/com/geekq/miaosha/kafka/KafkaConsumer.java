@@ -5,6 +5,7 @@ import com.geekq.miaosha.MQ.MQConfig;
 import com.geekq.miaosha.domain.MiaoshaMessage;
 import com.geekq.miaosha.domain.MiaoshaOrder;
 import com.geekq.miaosha.domain.MiaoshaUser;
+import com.geekq.miaosha.domain.OrderInfo;
 import com.geekq.miaosha.redis.RedisService;
 import com.geekq.miaosha.service.GoodsService;
 import com.geekq.miaosha.service.MiaoShaMessageService;
@@ -68,7 +69,10 @@ public class KafkaConsumer {
             return;
         }
         //减库存 下订单 写入秒杀订单
-        miaoshaService.miaosha(user, goods);
+        OrderInfo miaosha = miaoshaService.miaosha(user, goods);
+        if (miaosha == null) {
+
+        }
         //收到通道的消息之后执行秒杀操作
 //    	String[] array = message.split(";");
 //    	if(redisUtil.getValue(array[0])==null){//control层已经判断了，其实这里不需要再判断了，这个接口有限流 注意一下
